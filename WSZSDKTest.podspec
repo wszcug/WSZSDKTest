@@ -32,7 +32,7 @@ Pod::Spec.new do |spec|
  
 
   spec.source       = { :git => "https://github.com/wszcug/WSZSDKTest.git", :tag => "#{spec.version}" }
-  s.xcconfig	   = { 'OTHER_LDFLAGS' => '-ObjC -all_load -fobjc-arc' }
+  spec.xcconfig	   = { 'OTHER_LDFLAGS' => '-ObjC -all_load -fobjc-arc' }
 
   spec.dependency "Masonry", "~> 1.0.0"    #所依赖的第三方库，没有就不用写
 
