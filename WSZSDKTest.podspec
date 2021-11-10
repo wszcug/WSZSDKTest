@@ -11,7 +11,7 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "WSZSDKTest"
-  spec.version      = "0.0.2"
+  spec.version      = "0.0.3"
   spec.summary      = "开发测试开发测试发开发"
 
 
