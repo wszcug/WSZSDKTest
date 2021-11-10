@@ -26,8 +26,11 @@ Pod::Spec.new do |spec|
   spec.platform     = :ios, "9.0"
   
   spec.requires_arc = true
-  spec.frameworks = 'SystemConfiguration', 'Security', 'CoreGraphics', 'AVFAudio', 'AVFoundation', 'CoreTelephony','WebKit'
+
+  spec.frameworks = 'SystemConfiguration', 'Security', 'CoreGraphics', 'AVFoundation', 'CoreTelephony', 'WebKit'
+
   spec.libraries = 'z', 'c++', 'sqlite3.0', 'iconv'
+
   spec.vendored_frameworks    = 'WSZSDKTest/QPlayerSDK.framework'
  
 
