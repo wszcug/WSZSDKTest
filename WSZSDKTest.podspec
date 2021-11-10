@@ -11,32 +11,32 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "WSZSDKTest"
-  spec.version      = "0.0.1"
-  spec.summary      = "A short description of WSZSDKTest."
+  spec.version      = "0.0.2"
+  spec.summary      = "开发测试开发测试发开发"
 
 
-  spec.description  = <<-DESC
-                   DESC
+  spec.homepage     = "https://github.com/wszcug/WSZSDKTest.git"
 
-  spec.homepage     = "http://EXAMPLE/WSZSDKTest"
-
-  spec.license      = "MIT (example)"
+  spec.license      = "MIT"
 
 
-  spec.author             = { "wszcug" => "272327827@qq.com" }
+  spec.author       = { "wszcug" => "272327827@qq.com" }
  
 
   spec.platform     = :ios, "9.0"
-
+  
+  spec.requires_arc = true
+  spec.frameworks = 'SystemConfiguration', 'Security', 'CoreGraphics', 'AVFAudio', 'AVFoundation', 'CoreTelephony','WebKit'
+  spec.libraries = 'z', 'c++', 'sqlite3.0', 'iconv'
+  spec.vendored_frameworks    = 'WSZSDKTest/QPlayerSDK.framework'
  
 
   spec.source       = { :git => "https://github.com/wszcug/WSZSDKTest.git", :tag => "#{spec.version}" }
+  s.xcconfig	   = { 'OTHER_LDFLAGS' => '-ObjC -all_load -fobjc-arc' }
 
+  spec.dependency "Masonry", "~> 1.0.0"    #所依赖的第三方库，没有就不用写
 
-  spec.source_files  = "WSZSDKTest", "WSZSDKTest/**"
-spec.dependency "Masonry", "~> 1.0.0"    #所依赖的第三方库，没有就不用写
-
-
+	
  
 
 end
