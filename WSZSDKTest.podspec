@@ -8,7 +8,7 @@ spec.summary      	= "仅用于测试"
 spec.license      	= "MIT"
 spec.author       	= { "wszcug" => "272327827@qq.com" }
 spec.homepage     	= "https://github.com/wszcug/WSZSDKTest.git"
-s.documentation_url 	= 'http://Xinguang.github.io/WechatKit/index.html'
+spec.documentation_url 	= 'http://Xinguang.github.io/WechatKit/index.html'
 
 spec.source       	= { :git => "https://github.com/wszcug/WSZSDKTest.git", :tag => "#{spec.version}" }
 
