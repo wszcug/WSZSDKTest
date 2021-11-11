@@ -12,18 +12,18 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSNotificationName QPlayer_CurrentSongChanged;
 extern NSNotificationName QPlayer_PlaybackStatusChanged;
 
-typedef NS_ENUM(NSInteger, QPAudioPlayMode) {
-    QPAudioPlayMode_ListCircle = 0, //列表循环
-    QPAudioPlayMode_SingleCircle = 1,//单曲循环
-    QPAudioPlayMode_Random = 2,//随机播放
+typedef NS_ENUM(NSInteger, QPlaybackMode) {
+    QPlaybackMode_ListCircle = 0, //列表循环
+    QPlaybackMode_SingleCircle = 1,//单曲循环
+    QPlaybackMode_Random = 2,//随机播放
 };
 
 ///默认 标准品质
-typedef NS_ENUM(NSInteger, QPAudioPlayQuality) {
-    QPAudioPlayQuality_Smooth = 0, //流畅
-    QPAudioPlayQuality_Standard = 1,//标准
-    QPAudioPlayQuality_High = 2,//高品质
-    QPAudioPlayQuality_Lossless = 3,//无损
+typedef NS_ENUM(NSInteger, QPlaybackQuality) {
+    QPlaybackQuality_Smooth = 0, //流畅
+    QPlaybackQuality_Standard = 1,//标准
+    QPlaybackQuality_High = 2,//高品质
+    QPlaybackQuality_Lossless = 3,//无损
 };
 
 
@@ -43,6 +43,13 @@ typedef NS_ENUM(NSInteger, QPlaybackError) {
     QPlaybackError_Params     = 804,//传入参数异常
 };
 
+typedef NS_ENUM(NSInteger, QPlaybackCache) {
+    QPlaybackCache_100MB  = 0,
+    QPlaybackCache_500MB  = 1,
+    QPlaybackCache_800MB  = 2,
+    QPlaybackCache_1GB    = 3,
+};
+
 @protocol QPlayerManagerDelegate <NSObject>
 @optional
 - (void)playbackStatusChanged:(QPlaybackStatus)status;
@@ -52,21 +59,27 @@ typedef NS_ENUM(NSInteger, QPlaybackError) {
 @end
 
 @interface QPlayerManager : NSObject
-@property (nonatomic,readonly) NSArray<QPSongInfo *>  *playList;
+@property (nonatomic,readonly) NSArray<QPSongInfo *>  *playlist;
 @property (nonatomic,readonly) NSInteger currentIndex;
 @property (nonatomic,readonly) QPlaybackStatus currentPlaybackStatus;
-@property (nonatomic,readonly) NSTimeInterval currentTime;//当前播放时间
-@property (nonatomic,readonly) NSTimeInterval currentUITime;//播当前UI显示用时间，包含试听音频时
+///当前歌曲播放时间
+@property (nonatomic,readonly) NSTimeInterval currentTime;
+///播当前UI显示用时间，包含试听音频时
+@property (nonatomic,readonly) NSTimeInterval currentUITime;
 @property (nonatomic,readonly,nullable) QPSongInfo *currentSong;
-@property (nonatomic,readonly) NSTimeInterval duration; // 总时长
+///歌曲总时长
+@property (nonatomic,readonly) NSTimeInterval duration;
 @property (nonatomic,readonly) BOOL isPlaying;
-@property (nonatomic) QPAudioPlayMode playMode;//播放模式
+///歌曲播放模式（默认列表循环）
+@property (nonatomic) QPlaybackMode playMode;
+///歌曲缓存上限（默认100MB）
+@property (nonatomic) QPlaybackCache playbackCache;
 @property (nonatomic,weak,nullable) id<QPlayerManagerDelegate> delegate;
 
 + (instancetype)sharedInstance;
 
-- (void)setPlayQuality:(QPAudioPlayQuality)quality;
-- (QPAudioPlayQuality)getPlayQuality;
+- (void)setPlayQuality:(QPlaybackQuality)quality;
+- (QPlaybackQuality)getPlayQuality;
 
 
 - (void)play;
@@ -79,6 +92,9 @@ typedef NS_ENUM(NSInteger, QPlaybackError) {
 
 - (void)playAtIndex:(NSInteger)index;
 - (void)playSongs:(NSArray<QPSongInfo *> *)songs index:(NSInteger)index;
+
+///清理播放缓存
+- (void)clearCache;
 
 @end
 

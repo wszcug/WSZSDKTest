@@ -108,6 +108,15 @@ NS_ASSUME_NONNULL_BEGIN
 ///优先专辑图500x的 如果没有用300x；如果没有专辑图，再用歌手图
 @property (nonatomic,readonly,nullable) NSURL *bigCoverURL;
 
+///以下属性请忽略 内部使用不对外暴露
+@property (nonatomic,readonly) BOOL  hasPlayURL;
+@property (nonatomic,nullable) NSURL *songPlayURL;
+@property (nonatomic,nullable) NSURL *songHQPlayURL;
+@property (nonatomic,nullable) NSURL *songSQPlayURL;
+@property (nonatomic,nullable) NSURL *songStandardPlayURL;
+@property (nonatomic,nullable) NSURL *songH5URL;
+@property (nonatomic,nullable) NSURL *try30sURL;
+
 - (instancetype)initWithJSON:(NSDictionary *)json;
 - (instancetype)initWithMid:(NSString *)mid;
 
