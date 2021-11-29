@@ -24,7 +24,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //callBackUrl 是info.plist中URL types的item2的字段和://auth的组合
-    [[QPAccountManager sharedInstance] configureWithQMAppID:@"xxxx" appKey:@"xxxxx" callBackUrl:@"qmopenapidemo://auth"];
+    [[QPAccountManager sharedInstance] configureWithQMAppID:@"12345668" appKey:@"qoJvLUGMKmSExFJdXD" callBackUrl:@"qmopenapidemo://auth"];
     
     //微信AppID和universalLink必需跟微信后台申请的一致
     [[QPAccountManager sharedInstance] configureWithWXAppID:@"xxxx" universalLink:@"xxxx"];
