@@ -1,12 +1,12 @@
 //
 //  PlayerViewController.h
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/14.
 //
 
 #import <UIKit/UIKit.h>
-#import <QPlayerSDK/QPSongInfo.h>
+#import <QMOpenApiSDK/QPSongInfo.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PlayerViewController : UIViewController

@@ -1,12 +1,12 @@
 //
 //  PlayerViewController.m
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/14.
 //
 
 #import "PlayerViewController.h"
-#import <QPlayerSDK/QPlayerSDK.h>
+#import <QMOpenApiSDK/QMOpenApiSDK.h>
 #import "Masonry.h"
 #import "SDWebImage.h"
 #import "SVProgressHUD.h"
@@ -26,6 +26,7 @@
 @property (nonatomic) UIButton *nextButton;
 @property (nonatomic) UIButton *previousButton;
 @property (nonatomic) UILabel *cacheLabel;
+@property (nonatomic) UIButton *qualityButton;
 @property (nonatomic) UILabel *beginTimeLabel;
 @property (nonatomic) UILabel *endTimeLabel;
 @property (nonatomic) BOOL sliderDragged;
@@ -70,9 +71,18 @@
 - (void)commonInit {
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = UIColor.whiteColor;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"chevron.down" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:16 weight:UIImageSymbolWeightBold]] style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed)];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"list.bullet" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:16 weight:UIImageSymbolWeightBold]] style:UIBarButtonItemStylePlain target:self action:@selector(listButtonPressed)];
+    UIImage *image = [UIImage imageNamed:@"down"];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed)];
+    item.imageInsets = UIEdgeInsetsMake(5, 5, -5, -5);
+    self.navigationItem.leftBarButtonItem = item;
+    
+    
+    UIImage *image1 = [UIImage imageNamed:@"list"];
+    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(listButtonPressed)];
+    item1.imageInsets = UIEdgeInsetsMake(5, 5, -5, -5);
+    self.navigationItem.rightBarButtonItem = item1;
+    
     
     self.coverImageView = [[UIImageView alloc] init];
     
@@ -81,19 +91,31 @@
     
     self.playButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.playButton addTarget:self action:@selector(playButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self.playButton setImage:[UIImage systemImageNamed:@"play.circle" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:70 weight:UIImageSymbolWeightRegular]] forState:UIControlStateNormal];
+    UIImage *playImage = [UIImage imageNamed:@"play_circle"];
+    [self.playButton setImage:playImage forState:UIControlStateNormal];
+
     
     self.nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.nextButton addTarget:self action:@selector(nextButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self.nextButton setImage:[UIImage systemImageNamed:@"forward.end" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:50 weight:UIImageSymbolWeightRegular]] forState:UIControlStateNormal];
+    UIImage *nextImage = [UIImage imageNamed:@"next"];
+    [self.nextButton setImage:nextImage forState:UIControlStateNormal];
+
     
     self.previousButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.previousButton setImage:[UIImage systemImageNamed:@"backward.end" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:50 weight:UIImageSymbolWeightRegular]] forState:UIControlStateNormal];
+    UIImage *previousImage = [UIImage imageNamed:@"previous"];
+    [self.previousButton setImage:previousImage forState:UIControlStateNormal];
+    
     [self.previousButton addTarget:self action:@selector(previousButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     
     self.modeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.modeButton addTarget:self action:@selector(modeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [self updateModeButton];
+    
+    self.qualityButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.qualityButton addTarget:self action:@selector(qualityButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [self.qualityButton setTitle:[self titleForQuality:[QPlayerManager sharedInstance].playbackQuality] forState:UIControlStateNormal];
+    [self.qualityButton setTitleColor:UIColor.redColor forState:UIControlStateNormal];
+    self.qualityButton.titleLabel.font = [UIFont systemFontOfSize:18 weight:UIFontWeightRegular];
     
     self.beginTimeLabel = [[UILabel alloc] init];
     self.beginTimeLabel.textColor = UIColor.grayColor;
@@ -121,6 +143,7 @@
     [self.view addSubview:self.previousButton];
     [self.view addSubview:self.beginTimeLabel];
     [self.view addSubview:self.cacheLabel];
+    [self.view addSubview:self.qualityButton];
     [self.view addSubview:self.endTimeLabel];
     
     [QPlayerManager sharedInstance].delegate = self;
@@ -152,12 +175,14 @@
         make.top.mas_equalTo(self.slider.mas_bottom).with.offset(18);
     }];
     [self.modeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(30, 30));
         make.leading.mas_equalTo(self.view.mas_leading).with.offset(40);
         make.top.mas_equalTo(self.beginTimeLabel.mas_bottom).with.offset(50);
     }];
     [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view);
         make.bottom.mas_equalTo(self.view.mas_bottom).with.offset(-60);
+        make.size.mas_equalTo(CGSizeMake(50, 50));
     }];
     [self.cacheLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.modeButton.mas_centerY);
@@ -166,10 +191,18 @@
     [self.previousButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.playButton.mas_centerY);
         make.trailing.mas_equalTo(self.playButton.mas_leading).with.offset(-40);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
+    }];
+    [self.qualityButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(50);
+        make.width.mas_equalTo(120);
+        make.trailing.mas_equalTo(self.cacheLabel.mas_trailing);
+        make.top.mas_equalTo(self.cacheLabel.mas_bottom).with.offset(20);
     }];
     [self.nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.playButton.mas_centerY);
         make.leading.mas_equalTo(self.playButton.mas_trailing).with.offset(40);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
 }
 
@@ -181,9 +214,32 @@
     self.endTimeLabel.text = [self timeFormatted:self.currentSong.duration];
     self.slider.maximumValue = self.currentSong.duration;
     self.cacheLabel.text = [NSString stringWithFormat:@"缓存大小:%@",[self sizeOfFolder:[self pathForTemporaryFile:@"qqmusic/playingCache"]]];
+    [self.qualityButton setTitle:[self titleForQuality:[QPlayerManager sharedInstance].playbackQuality] forState:UIControlStateNormal];
 }
 
 #pragma mark: - Actions
+- (void)qualityButtonPressed {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"设置音频质量" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [alert addAction:[UIAlertAction actionWithTitle:@"流畅" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [QPlayerManager sharedInstance].playbackQuality = QPlaybackQuality_Smooth;
+        [self.qualityButton setTitle:[self titleForQuality:[QPlayerManager sharedInstance].playbackQuality] forState:UIControlStateNormal];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"标准" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [QPlayerManager sharedInstance].playbackQuality = QPlaybackQuality_Standard;
+        [self.qualityButton setTitle:[self titleForQuality:[QPlayerManager sharedInstance].playbackQuality] forState:UIControlStateNormal];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"高品质" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [QPlayerManager sharedInstance].playbackQuality = QPlaybackQuality_High;
+        [self.qualityButton setTitle:[self titleForQuality:[QPlayerManager sharedInstance].playbackQuality] forState:UIControlStateNormal];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"无损" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [QPlayerManager sharedInstance].playbackQuality = QPlaybackQuality_Lossless;
+        [self.qualityButton setTitle:[self titleForQuality:[QPlayerManager sharedInstance].playbackQuality] forState:UIControlStateNormal];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 - (void)modeButtonPressed{
     if ([QPlayerManager sharedInstance].playMode == QPlaybackMode_ListCircle) {
         [QPlayerManager sharedInstance].playMode = QPlaybackMode_SingleCircle;
@@ -250,9 +306,12 @@
             }
         }];
         [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
-        [self.playButton setImage:[UIImage systemImageNamed:@"pause.circle" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:70 weight:UIImageSymbolWeightRegular]] forState:UIControlStateNormal];
+        
+        UIImage *playImage = [UIImage imageNamed:@"pause_circle"];
+        [self.playButton setImage:playImage forState:UIControlStateNormal];
     }else {
-        [self.playButton setImage:[UIImage systemImageNamed:@"play.circle" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:70 weight:UIImageSymbolWeightRegular]] forState:UIControlStateNormal];
+        UIImage *playImage = [UIImage imageNamed:@"play_circle"];
+        [self.playButton setImage:playImage forState:UIControlStateNormal];
         [self.timer invalidate];
     }
     
@@ -285,13 +344,16 @@
 
 - (void)updateModeButton {
     if ([QPlayerManager sharedInstance].playMode == QPlaybackMode_ListCircle) {
-        [self.modeButton setImage:[UIImage systemImageNamed:@"repeat.circle" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:30 weight:UIImageSymbolWeightRegular]] forState:UIControlStateNormal];
+        UIImage *image = [UIImage imageNamed:@"repeat"];
+        [self.modeButton setImage:image forState:UIControlStateNormal];
     }
     else if ([QPlayerManager sharedInstance].playMode == QPlaybackMode_SingleCircle){
-        [self.modeButton setImage:[UIImage systemImageNamed:@"repeat.1.circle" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:30 weight:UIImageSymbolWeightRegular]] forState:UIControlStateNormal];
+        UIImage *image = [UIImage imageNamed:@"repeat_1"];
+        [self.modeButton setImage:image forState:UIControlStateNormal];
     }
     else if ([QPlayerManager sharedInstance].playMode == QPlaybackMode_Random){
-        [self.modeButton setImage:[UIImage systemImageNamed:@"shuffle.circle" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:30 weight:UIImageSymbolWeightRegular]] forState:UIControlStateNormal];
+        UIImage *image = [UIImage imageNamed:@"shuffle"];
+        [self.modeButton setImage:image forState:UIControlStateNormal];
     }
 }
 
@@ -315,6 +377,21 @@
 
 - (NSString *)pathForTemporaryFile:(NSString *)filename {
     return [NSTemporaryDirectory() stringByAppendingPathComponent:filename];
+}
+
+- (NSString *)titleForQuality:(QPlaybackQuality)quality {
+    if (quality == QPlaybackQuality_Smooth) {
+        return @"流畅";
+    }else if (quality == QPlaybackQuality_Standard){
+        return @"标准";
+    }
+    else if (quality == QPlaybackQuality_High){
+        return @"高品质";
+    }
+    else if (quality == QPlaybackQuality_Lossless){
+        return @"无损";
+    }
+    return @"";
 }
 
 @end

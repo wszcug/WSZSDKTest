@@ -1,6 +1,6 @@
 //
 //  TestViewController.h
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/11/4.
 //

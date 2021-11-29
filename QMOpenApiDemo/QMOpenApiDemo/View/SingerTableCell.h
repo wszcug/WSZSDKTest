@@ -1,12 +1,12 @@
 //
 //  SingerTableCell.h
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/30.
 //
 
 #import <UIKit/UIKit.h>
-#import <QPlayerSDK/QPSinger.h>
+#import <QMOpenApiSDK/QPSinger.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SingerTableCell : UITableViewCell

@@ -1,13 +1,13 @@
 //
 //  RankViewController.m
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/22.
 //
 
 #import "RankViewController.h"
 #import "Masonry.h"
-#import <QPlayerSDK/QPlayerSDK.h>
+#import <QMOpenApiSDK/QMOpenApiSDK.h>
 #import "RankTableCell.h"
 #import "SVProgressHUD.h"
 #import "SongListViewController.h"

@@ -1,12 +1,12 @@
 //
 //  AlbumTableCell.h
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/13.
 //
 
 #import <UIKit/UIKit.h>
-#import <QPlayerSDK/QPAlbum.h>
+#import <QMOpenApiSDK/QPAlbum.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AlbumTableCell : UITableViewCell

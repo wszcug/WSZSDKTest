@@ -1,12 +1,12 @@
 //
 //  SongListViewController.h
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/22.
 //
 
 #import <UIKit/UIKit.h>
-#import <QPlayerSDK/QPlayerSDK.h>
+#import <QMOpenApiSDK/QMOpenApiSDK.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SongListViewController : UIViewController

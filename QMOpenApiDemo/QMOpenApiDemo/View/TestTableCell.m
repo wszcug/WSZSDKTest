@@ -1,6 +1,6 @@
 //
 //  TestTableCell.m
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/11/4.
 //
@@ -32,6 +32,7 @@
         [self.stateImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.trailing.mas_equalTo(self.contentView.mas_trailing).with.offset(-8);
             make.centerY.mas_equalTo(self.contentView.mas_centerY);
+            make.size.mas_equalTo(CGSizeMake(26, 26));
         }];
         
     }

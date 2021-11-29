@@ -1,20 +1,18 @@
 PODS:
   - Masonry (1.1.0)
-  - MJRefresh (3.7.2)
+  - MJRefresh (3.7.3)
   - SDWebImage (5.12.1):
     - SDWebImage/Core (= 5.12.1)
   - SDWebImage/Core (5.12.1)
   - SVProgressHUD (2.2.5)
-  - WeChatSDK-iOS (1.7.3)
-  - WSZSDKTest (0.0.6)
+  - WSZSDKTest (0.0.8)
 
 DEPENDENCIES:
   - Masonry
   - MJRefresh
   - SDWebImage
   - SVProgressHUD
-  - WeChatSDK-iOS (~> 1.7.3)
-  - WSZSDKTest (~> 0.0.6)
+  - WSZSDKTest
 
 SPEC REPOS:
   trunk:
@@ -22,17 +20,15 @@ SPEC REPOS:
     - MJRefresh
     - SDWebImage
     - SVProgressHUD
-    - WeChatSDK-iOS
     - WSZSDKTest
 
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  MJRefresh: 30997d30b347c8e9508a4db11e3a690da0c9b85a
+  MJRefresh: ec9c53ff4abf3a9237b4283862f1bd51c2ee3fdb
   SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
-  WeChatSDK-iOS: 5ab1275da6f245c41232870f8215998c59cbb539
-  WSZSDKTest: 3c37943489e542753afb000584ebec2a0159526e
+  WSZSDKTest: 558bd418859398600aa2f93a2635dfaf7a996df0
 
-PODFILE CHECKSUM: 547997420faf4375c0a97aae62abf57d361d6d8a
+PODFILE CHECKSUM: 2c369fc1d1c97bc30ae25cc00bcb6cedbc7c3282
 
 COCOAPODS: 1.11.2

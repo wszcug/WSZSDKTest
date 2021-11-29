@@ -1,6 +1,6 @@
 //
 //  HomeViewController.h
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by wsz on 2021/8/30.
 //

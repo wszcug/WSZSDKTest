@@ -1,12 +1,12 @@
 //
 //  MineViewController.m
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/12.
 //
 
 #import "MineViewController.h"
-#import <QPlayerSDK/QPlayerSDK.h>
+#import <QMOpenApiSDK/QMOpenApiSDK.h>
 #import "SDWebImage.h"
 #import "Masonry.h"
 #import "SongInfoTableCell.h"
@@ -52,11 +52,17 @@
 - (void) commonInit{
     self.folders = [NSMutableArray array];
     self.edgesForExtendedLayout = UIRectEdgeNone;
+        
+    UIImage *image = [UIImage imageNamed:@"plus"];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(createFolderButtonPressed)];
+    item.imageInsets = UIEdgeInsetsMake(5, 5, -5, -5);
+    self.navigationItem.rightBarButtonItem = item;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"plus" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:16 weight:UIImageSymbolWeightBold]] style:UIBarButtonItemStylePlain target:self action:@selector(createFolderButtonPressed)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"接口测试" style:UIBarButtonItemStylePlain target:self action:@selector(leftBarButtonItemPressed)];
+        
+    self.avatarImageView = [[UIImageView alloc] init];
+    self.avatarImageView.image = [UIImage imageNamed:@"personal"];
     
-    self.avatarImageView = [[UIImageView alloc] initWithImage:[UIImage systemImageNamed:@"person.fill" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:50 weight:UIImageSymbolWeightRegular]]];
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.backgroundColor = UIColor.lightGrayColor;
     [self.avatarImageView sd_setImageWithURL:[QPAccountManager sharedInstance].userInfo.avatarURL];
@@ -392,6 +398,7 @@
     return [[UITableViewCell alloc] init];
 }
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 110000
 #pragma mark - UITableViewDelegate
 - (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView leadingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.segmentedControl.selectedSegmentIndex != 0) {
@@ -436,6 +443,7 @@
     swipeActionConfig.performsFirstActionWithFullSwipe = NO;
     return swipeActionConfig;
 }
+#endif
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

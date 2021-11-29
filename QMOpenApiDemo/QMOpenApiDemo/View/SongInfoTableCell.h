@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <QPlayerSDK/QPSongInfo.h>
+#import <QMOpenApiSDK/QPSongInfo.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

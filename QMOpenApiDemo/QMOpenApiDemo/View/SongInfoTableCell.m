@@ -9,7 +9,7 @@
 #import "SongInfoTableCell.h"
 #import "Masonry.h"
 #import "SDWebImage.h"
-#import <QPlayerSDK/QPlayerSDK.h>
+#import <QMOpenApiSDK/QMOpenApiSDK.h>
 
 @interface SongInfoTableCell()
 

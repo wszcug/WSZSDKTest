@@ -1,13 +1,13 @@
 //
 //  RadioViewController.m
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/12.
 //
 
 #import "RadioViewController.h"
 #import "Masonry.h"
-#import <QPlayerSDK/QPlayerSDK.h>
+#import <QMOpenApiSDK/QMOpenApiSDK.h>
 #import "CategoryCollectionCell.h"
 #import "CategoryHeaderView.h"
 #import "LongAudioListController.h"

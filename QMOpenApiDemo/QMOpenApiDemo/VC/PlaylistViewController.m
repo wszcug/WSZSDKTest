@@ -1,6 +1,6 @@
 //
 //  PlaylistViewController.m
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/26.
 //
@@ -8,7 +8,7 @@
 #import "PlaylistViewController.h"
 #import "Masonry.h"
 #import "PlaylistTableCell.h"
-#import <QPlayerSDK/QPlayerSDK.h>
+#import <QMOpenApiSDK/QMOpenApiSDK.h>
 
 @interface PlaylistViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic) UITableView *tableView;

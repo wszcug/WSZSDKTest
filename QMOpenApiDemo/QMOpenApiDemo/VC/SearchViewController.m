@@ -1,6 +1,6 @@
 //
 //  SearchViewController.m
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/12.
 //
@@ -13,7 +13,7 @@
 #import "AlbumTableCell.h"
 #import "LyricTableCell.h"
 #import "SingerTableCell.h"
-#import <QPlayerSDK/QPlayerSDK.h>
+#import <QMOpenApiSDK/QMOpenApiSDK.h>
 #import "SongListViewController.h"
 #import "AlbumListViewController.h"
 #import "SVProgressHUD.h"
@@ -58,7 +58,15 @@
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.obscuresBackgroundDuringPresentation = NO;
     self.searchController.searchBar.placeholder = @"搜索";
-    self.navigationItem.searchController = self.searchController;
+    
+    if (@available(iOS 11.0, *)) {
+        self.navigationItem.searchController = self.searchController;
+    } else {
+        UIImage *image = [UIImage imageNamed:@"search"];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(createFolderButtonPressed)];
+        item.imageInsets = UIEdgeInsetsMake(5, 5, -5, -5);
+        self.navigationItem.rightBarButtonItem = item;
+    }
     self.definesPresentationContext = YES;
     self.searchController.searchBar.scopeButtonTitles = @[@"单曲",@"歌单",@"专辑",@"电台",@"歌词",@"歌手"];
     self.searchController.searchBar.delegate = self;
@@ -81,6 +89,10 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)createFolderButtonPressed {
+    [self presentViewController:self.searchController animated:YES completion:^{}];
 }
 
 - (void)setupConstraints{

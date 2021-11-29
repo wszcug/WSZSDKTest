@@ -1,6 +1,6 @@
 //
 //  MineViewController.h
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/12.
 //

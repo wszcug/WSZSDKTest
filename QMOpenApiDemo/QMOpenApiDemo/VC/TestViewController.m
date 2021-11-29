@@ -1,6 +1,6 @@
 //
 //  TestViewController.m
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/11/4.
 //
@@ -8,7 +8,7 @@
 #import "TestViewController.h"
 #import "Masonry.h"
 #import "TestTableCell.h"
-#import <QPlayerSDK/QPlayerSDK.h>
+#import <QMOpenApiSDK/QMOpenApiSDK.h>
 #import "SVProgressHUD.h"
 @interface TestModel:NSObject
 @property (nonatomic) NSString *name;
@@ -28,6 +28,8 @@
 @interface TestViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic) NSArray<TestModel *> *data;
+@property (nonatomic) NSMutableArray *errors;
+@property (nonatomic) BOOL shouldShow;
 @end
 
 @implementation TestViewController
@@ -39,9 +41,13 @@
 
 - (void)commonInit {
     [self serviceInit];
+    self.errors = [NSMutableArray array];
     self.navigationItem.title = [NSString stringWithFormat:@"接口测试(%ld)",self.data.count];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"play.circle" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:16 weight:UIImageSymbolWeightBold]] style:UIBarButtonItemStylePlain target:self action:@selector(testButtonPressed)];
-    
+    UIImage *image = [UIImage imageNamed:@"play_circle"];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(testButtonPressed)];
+    item.imageInsets = UIEdgeInsetsMake(5, 5, -5, -5);
+    self.navigationItem.rightBarButtonItem = item;
+
     self.tableView = [[UITableView alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -132,10 +138,10 @@
         [cell.stateImageView setHidden:NO];
         if (model.state == 1) {
             cell.nameLabel.textColor = UIColor.blackColor;
-            cell.stateImageView.image = [UIImage systemImageNamed:@"checkmark.circle" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:16 weight:UIImageSymbolWeightBold]];
+            cell.stateImageView.image = [UIImage imageNamed:@"checkmark"];
         }else {
             cell.nameLabel.textColor = UIColor.redColor;
-            cell.stateImageView.image = [UIImage systemImageNamed:@"xmark.octagon" withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:16 weight:UIImageSymbolWeightBold]];
+            cell.stateImageView.image = [UIImage imageNamed:@"xmark"];
         }
     }
     return cell;
@@ -144,11 +150,26 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    if (self.data.count == self.errors.count) {
+        TestModel *model = self.data[indexPath.row];
+        id error = self.errors[indexPath.row];
+        if ([error isKindOfClass:[NSString class]]) {
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:model.name message:error preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+        else if ([error isKindOfClass:[NSError class]]) {
+            NSError *err = (NSError *)error;
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:model.name message:err.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+    }
 }
 
 
 - (void)testButtonPressed {
+    [self.errors removeAllObjects];
     dispatch_group_t group = dispatch_group_create();
     for (NSInteger index = 0; index < self.data.count;index++) {
         TestModel *model = self.data[index];
@@ -159,6 +180,12 @@
             [[QPOpenAPIManager sharedInstance] searchWithKeyword:@"五月天" typeNumber:[NSNumber numberWithInt:100] pageSize:nil pageNumber:nil completion:^(QPSearchResult * _Nullable result, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
+                
                 dispatch_group_leave(group);
             }];
         }
@@ -167,6 +194,11 @@
             [[QPOpenAPIManager sharedInstance] searchSmartWithKeyword:@"五月天" completion:^(NSArray<NSString *> * _Nullable results, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [self.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -175,6 +207,11 @@
             [[QPOpenAPIManager sharedInstance] fetchCateoryOfPublicRadioWithCompletion:^(NSArray<QPCategory *> * _Nullable categories, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -183,6 +220,11 @@
             [[QPOpenAPIManager sharedInstance] fetchPublicRadioListByCatetoryId:@"24" completion:^(NSArray<QPRadio *> * _Nullable radios, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -191,6 +233,11 @@
             [[QPOpenAPIManager sharedInstance] fetchSongOfPublicRadioWithId:@"199" pageSize:nil completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -199,6 +246,11 @@
             [[QPOpenAPIManager sharedInstance] fetchRadioOfJustListenWithCompletion:^(NSArray<QPRadio *> * _Nullable radios, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -207,6 +259,11 @@
             [[QPOpenAPIManager sharedInstance] fetchSongOfJustListenRaidoWithId:@"595" completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -215,6 +272,11 @@
             [[QPOpenAPIManager sharedInstance] fetchCategoryOfRankWithCompletion:^(NSArray<QPCategory *> * _Nullable categories, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -223,6 +285,11 @@
             [[QPOpenAPIManager sharedInstance] fetchRankListByCategoryWithId:@"0" completion:^(NSArray<QPRank *> * _Nullable ranks, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -231,6 +298,11 @@
             [[QPOpenAPIManager sharedInstance] fetchSongOfRankWithId:@"62" pageNumber:nil pageSize:nil completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -239,6 +311,11 @@
             [[QPOpenAPIManager sharedInstance] fetchAlbumDetailWithMid:@"002fRO0N4FftzY" completion:^(QPAlbum * _Nullable album, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -247,6 +324,11 @@
             [[QPOpenAPIManager sharedInstance] fetchAlbumDetailWithId:@"1393445" completion:^(QPAlbum * _Nullable album, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -255,6 +337,11 @@
             [[QPOpenAPIManager sharedInstance] fetchSongOfAlbumWithMid:@"002fRO0N4FftzY" pageNumber:[NSNumber numberWithInt:0] pageSize:[NSNumber numberWithInt:50] completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -263,6 +350,11 @@
             [[QPOpenAPIManager sharedInstance] fetchSongOfAlbumWithId:@"1393445" pageNumber:[NSNumber numberWithInt:0] pageSize:[NSNumber numberWithInt:50] completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -271,6 +363,11 @@
             [[QPOpenAPIManager sharedInstance] fetchSongOfSingerWithId:@"74" pageNumber:[NSNumber numberWithInt:0] pageSize:[NSNumber numberWithInt:50] order:1 completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -279,6 +376,11 @@
             [[QPOpenAPIManager sharedInstance] fetchHotSingerListWithArea:[NSNumber numberWithInt:-100] typeNumber:[NSNumber numberWithInt:-100] genreNumber:[NSNumber numberWithInt:-100] completion:^(NSArray<QPSinger *> * _Nullable singers, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -287,6 +389,11 @@
             [[QPOpenAPIManager sharedInstance] fetchAlbumOfSingerWithId:@"74" pageNumber:[NSNumber numberWithInt:0] pageSize:[NSNumber numberWithInt:50] order:1 completion:^(NSArray<QPAlbum *> * _Nullable albums, NSInteger total, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -295,6 +402,11 @@
             [[QPOpenAPIManager sharedInstance] searchSingerWithKeyword:@"五月天" pageNumber:nil pageSize:nil completion:^(NSArray<QPSinger *> * _Nullable singers, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -303,6 +415,11 @@
             [[QPOpenAPIManager sharedInstance] fetchDailyRecommandSongWithCompletion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -311,6 +428,11 @@
             [[QPOpenAPIManager sharedInstance] fetchPersonalRecommandSongWithCompletion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -319,6 +441,11 @@
             [[QPOpenAPIManager sharedInstance] fetchSimilarSongMid:@"0048J5cW2AdC2S" completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -327,6 +454,11 @@
             [[QPOpenAPIManager sharedInstance] fetchGreenMemberInformationWithCompletion:^(QPVipInfo * _Nullable vipInfo, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -335,6 +467,11 @@
             [[QPOpenAPIManager sharedInstance] fetchCategoryOfRecommandLongAuidoWithCompletion:^(NSArray<QPCategory *> * _Nullable categories, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -343,6 +480,11 @@
             [[QPOpenAPIManager sharedInstance] fetchAlbumListOfRecommandLongAuidoByCategoryWithId:@"0" completion:^(NSArray<QPAlbum *> * _Nullable albums, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -351,6 +493,11 @@
             [[QPOpenAPIManager sharedInstance] fetchGuessLikeLongAudioWithCompletion:^(NSArray<QPAlbum *> * _Nullable albums, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -359,6 +506,11 @@
             [[QPOpenAPIManager sharedInstance] fetchCategoryOfRankLongAudioWithCompletion:^(NSArray<QPCategory *> * _Nullable categories, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -367,6 +519,11 @@
             [[QPOpenAPIManager sharedInstance] fetchAlbumListOfRankLongAudioByCategoryWithId:@"4013" subCategoryId:@"0" completion:^(NSArray<QPAlbum *> * _Nullable albums, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -375,6 +532,11 @@
             [[QPOpenAPIManager sharedInstance] fetchCategoryOfLongAudioWithCompletion:^(NSArray<QPCategory *> * _Nullable categories, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -383,6 +545,11 @@
             [[QPOpenAPIManager sharedInstance] fetchCategoryFilterOfLongAudioWithId:@"1001" subCateoryId:@"1503" completion:^(NSDictionary<NSString *,NSArray<QPCategory *> *> * _Nullable categories, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -391,6 +558,11 @@
             [[QPOpenAPIManager sharedInstance] fetchAlbumListOfLongAuidoByCategoryWithId:@"1001" subCategoryId:@"1503" sortType:1 pageSize:[NSNumber numberWithInt:60] pageNumber:[NSNumber numberWithInt:0] filterCategories:nil completion:^(NSArray<QPAlbum *> * _Nullable albums, NSInteger total, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -399,6 +571,11 @@
             [[QPOpenAPIManager sharedInstance] fetchRecentUpdateLongAudioWithCompletion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -407,6 +584,11 @@
             [[QPOpenAPIManager sharedInstance] fetchLikeListLongAudioWithCompletion:^(NSArray<QPAlbum *> * _Nullable albums, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -415,6 +597,11 @@
             [[QPOpenAPIManager sharedInstance] fetchRecentPlayLongAudioWithCompletion:^(NSArray<QPAlbum *> * _Nullable albums, NSTimeInterval updateTime, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -423,6 +610,11 @@
             [[QPOpenAPIManager sharedInstance] fetchFolderDetailWithId:@"7913233767" completion:^(QPFolder * _Nullable folder, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -431,6 +623,11 @@
             [[QPOpenAPIManager sharedInstance] fetchPersonalFolderWithCompletion:^(NSArray<QPFolder *> * _Nullable folders, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -439,6 +636,11 @@
             [[QPOpenAPIManager sharedInstance] collectFolderWithId:@"7913233767" completion:^(NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -447,6 +649,11 @@
             [[QPOpenAPIManager sharedInstance] uncollectFolderWithId:@"7913233767" completion:^(NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -455,6 +662,11 @@
             [[QPOpenAPIManager sharedInstance] fetchCollectedFolderWithCompletion:^(NSArray<QPFolder *> * _Nullable folders, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -463,6 +675,11 @@
             [[QPOpenAPIManager sharedInstance] fetchCategoryOfFolderWithCompletion:^(NSArray<QPCategory *> * _Nullable categories, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -471,6 +688,11 @@
             [[QPOpenAPIManager sharedInstance] fetchFolderListByCategoryWithId:@"100823" pageNumber:nil pageSize:nil completion:^(NSArray<QPFolder *> * _Nullable folders, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -480,6 +702,11 @@
             [[QPOpenAPIManager sharedInstance] fetchSongInfoBatchWithMid:@[song] completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -490,6 +717,11 @@
             [[QPOpenAPIManager sharedInstance] fetchSongInfoBatchWithId:@[song] completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -498,6 +730,11 @@
             [[QPOpenAPIManager sharedInstance] fetchNewSongRecommendWithTag:12 completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -506,6 +743,11 @@
             [[QPOpenAPIManager sharedInstance] fetchLyricWithSongMid:@"0048J5cW2AdC2S" completion:^(NSString * _Nullable lyric, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -514,6 +756,11 @@
             [[QPOpenAPIManager sharedInstance] fetchLyricWithSongId:@"5131924" completion:^(NSString * _Nullable lyric, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -522,6 +769,11 @@
             [[QPOpenAPIManager sharedInstance] fetchRecentPlaySongWithUpdateTime:0 completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSTimeInterval updateTime, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -530,6 +782,11 @@
             [[QPOpenAPIManager sharedInstance] fetchRecentPlayAlbumWithUpdateTime:0 completion:^(NSArray<QPAlbum *> * _Nullable albums, NSTimeInterval updateTime, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -538,6 +795,11 @@
             [[QPOpenAPIManager sharedInstance] fetchRecentPlayFolderWithUpdateTime:0 completion:^(NSArray<QPFolder *> * _Nullable folders, NSTimeInterval updateTime, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }
@@ -546,6 +808,11 @@
             [[QPOpenAPIManager sharedInstance] musicSkillWithIntent:@"SearchSong" slots:@{@"Singer":@"周杰伦"} question:@"播放感伤的歌曲" currentSongId:nil itemCount:50 completion:^(NSDictionary * _Nullable data, NSError * _Nullable error) {
                 model.state = error == nil ? 1 : 2;
                 [weakSelf.tableView reloadData];
+                if (error) {
+                    [weakSelf.errors addObject:error];
+                }else {
+                    [weakSelf.errors addObject:@"一切正常"];
+                }
                 dispatch_group_leave(group);
             }];
         }

@@ -1,13 +1,13 @@
 //
 //  HomeViewController.m
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by wsz on 2021/8/30.
 //
 
 #import "HomeViewController.h"
 #import "Masonry.h"
-#import <QPlayerSDK/QPlayerSDK.h>
+#import <QMOpenApiSDK/QMOpenApiSDK.h>
 #import "CategoryCollectionCell.h"
 #import "CategoryHeaderView.h"
 #import "FolderListViewController.h"

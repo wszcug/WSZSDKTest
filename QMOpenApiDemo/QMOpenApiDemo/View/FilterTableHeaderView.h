@@ -1,12 +1,12 @@
 //
 //  FilterTableHeaderView.h
-//  QPlayerSDKDemo
+//  QMOpenApiDemo
 //
 //  Created by maczhou on 2021/10/30.
 //
 
 #import <UIKit/UIKit.h>
-#import <QPlayerSDK/QPCategory.h>
+#import <QMOpenApiSDK/QPCategory.h>
 NS_ASSUME_NONNULL_BEGIN
 @protocol FilterTableHeaderViewDelegate <NSObject>
 - (void)selectedFilterDidChanged:(NSArray<QPCategory *> *)filters;
