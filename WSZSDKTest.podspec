@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
 spec.name         	= "WSZSDKTest"
-spec.version      	= "0.0.8"
+spec.version      	= "1.0.0"
 spec.summary      	= "仅用于测试"
 spec.license      	= "MIT"
 spec.author       	= { "wszcug" => "272327827@qq.com" }
@@ -11,7 +11,7 @@ spec.homepage     	= "https://github.com/wszcug/WSZSDKTest.git"
 spec.documentation_url 	= 'http://Xinguang.github.io/WechatKit/index.html'
 spec.source       	= { :git => "https://github.com/wszcug/WSZSDKTest.git", :tag => "#{spec.version}" }
 
-spec.platform     	= :ios, "9.0"
+spec.platform     	= :ios, "10.0"
 spec.requires_arc 	= true
 
 spec.frameworks 		= 'SystemConfiguration', 'Security', 'CoreGraphics', 'AVFoundation', 'CoreTelephony', 'WebKit'
