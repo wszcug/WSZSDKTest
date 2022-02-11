@@ -28,17 +28,17 @@
     }];
     
     [SVProgressHUD showWithStatus:@"正在获取二维码"];
-    [[QPAccountManager sharedInstance] startQRCodeAuthenticationWithImage:^(UIImage * _Nonnull qrimage) {
-        imageView.image = qrimage;
-        [SVProgressHUD dismiss];
-    } Completion:^(BOOL success, NSString * _Nonnull msg) {
-        if (success) {
-            [SVProgressHUD showSuccessWithStatus:msg];
-            [self dismissViewControllerAnimated:YES completion:NULL];
-        } else {
-            [SVProgressHUD showErrorWithStatus:msg];
-        }
-    }];
+//    [[QPAccountManager sharedInstance] startQRCodeAuthenticationWithImage:^(UIImage * _Nonnull qrimage) {
+//        imageView.image = qrimage;
+//        [SVProgressHUD dismiss];
+//    } Completion:^(BOOL success, NSString * _Nonnull msg) {
+//        if (success) {
+//            [SVProgressHUD showSuccessWithStatus:msg];
+//            [self dismissViewControllerAnimated:YES completion:NULL];
+//        } else {
+//            [SVProgressHUD showErrorWithStatus:msg];
+//        }
+//    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

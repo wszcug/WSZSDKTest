@@ -347,21 +347,21 @@
 //    }];
 //
     
-    [[QPAccountManager sharedInstance] startQQH5AuthenticationWithWebUrl:^(NSString * _Nonnull webUrl) {
-        if (webUrl.length) {
-            UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-            UIViewController *vc = window.rootViewController;
-            if (vc) {
-                self.loginVC = [[LoginViewController alloc] initWithUrl:webUrl];
-                self.loginVC.modalPresentationStyle = UIModalPresentationFullScreen;
-                [vc presentViewController:self.loginVC animated:YES completion:NULL];
-            }
-        }
-    } Completion:^(BOOL success, NSString * _Nonnull msg) {
-        if (self.loginVC) {
-            [self.loginVC dismissViewControllerAnimated:YES completion:NULL];
-        }
-    }];
+//    [[QPAccountManager sharedInstance] startQQH5AuthenticationWithWebUrl:^(NSString * _Nonnull webUrl) {
+//        if (webUrl.length) {
+//            UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+//            UIViewController *vc = window.rootViewController;
+//            if (vc) {
+//                self.loginVC = [[LoginViewController alloc] initWithUrl:webUrl];
+//                self.loginVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//                [vc presentViewController:self.loginVC animated:YES completion:NULL];
+//            }
+//        }
+//    } Completion:^(BOOL success, NSString * _Nonnull msg) {
+//        if (self.loginVC) {
+//            [self.loginVC dismissViewControllerAnimated:YES completion:NULL];
+//        }
+//    }];
 }
 
 - (void)logButtonPressed {
