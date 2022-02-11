@@ -17,6 +17,9 @@
 #import "SongListViewController.h"
 #import "SVProgressHUD.h"
 #import "TestViewController.h"
+#import "AppDelegate.h"
+#import "LoginViewController.h"
+#import "QRCodeLoginVC.h"
 
 @interface MineViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic) UIImageView *avatarImageView;
@@ -25,6 +28,7 @@
 @property (nonatomic) UIButton *qqButton;
 @property (nonatomic) UIButton *wechatButton;
 @property (nonatomic) UIButton *qqmusicButton;
+@property (nonatomic) UIButton *qrcodeButton;
 @property (nonatomic) UIButton *logoutButton;
 @property (nonatomic) UIButton *clearButton;
 @property (nonatomic) UIButton *cacheButton;
@@ -34,6 +38,7 @@
 
 @property (nonatomic) NSMutableArray<QPFolder *>  *folders;
 @property (nonatomic) NSArray<QPSongInfo *>  *songs;
+@property (nonatomic) LoginViewController *loginVC;
 @end
 
 @implementation MineViewController
@@ -105,6 +110,14 @@
     self.qqmusicButton.layer.cornerRadius = 5;
     [self.qqmusicButton addTarget:self action:@selector(qqmusicButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     
+    self.qrcodeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.qrcodeButton setTitle:@"二维码登录" forState:UIControlStateNormal];
+    self.qrcodeButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
+    self.qrcodeButton.backgroundColor = UIColor.lightGrayColor;
+    [self.qrcodeButton setTitleColor:UIColor.blueColor forState:UIControlStateNormal];
+    self.qrcodeButton.layer.cornerRadius = 5;
+    [self.qrcodeButton addTarget:self action:@selector(qrcodeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    
     self.logoutButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.logoutButton setTitle:@"登出" forState:UIControlStateNormal];
     self.logoutButton.titleLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
@@ -154,6 +167,7 @@
     [self.view addSubview:self.qqButton];
     [self.view addSubview:self.logButton];
     [self.view addSubview:self.qqmusicButton];
+    [self.view addSubview:self.qrcodeButton];
     [self.view addSubview:self.wechatButton];
     [self.view addSubview:self.logoutButton];
     [self.view addSubview:self.clearButton];
@@ -215,6 +229,11 @@
         make.bottom.equalTo(self.qqmusicButton);
         make.height.mas_equalTo(30);
         make.width.mas_equalTo(90);
+    }];
+    [self.qrcodeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.width.equalTo(self.qqButton);
+        make.bottom.equalTo(self.avatarImageView.mas_top).offset(10);
+        make.centerX.equalTo(self.avatarImageView);
     }];
     [self.line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.qqmusicButton.mas_bottom).with.offset(12);
@@ -311,15 +330,37 @@
     }];
 }
 
+- (void)qrcodeButtonPressed {
+    QRCodeLoginVC *qrvc = [[QRCodeLoginVC alloc] init];
+    [self presentViewController:qrvc animated:YES completion:NULL];
+}
+
 - (void) qqButtonPressed {
-    [[QPAccountManager sharedInstance] startQQMiniAppAuthenticationWithCompletion:^(BOOL success, NSString * _Nonnull msg) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"QQ小程序认证"
-                                                                       message:[NSString stringWithFormat:@"status:%@\n message:%@",success?@"success":@"failed",msg] preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:NULL];
-        [alert addAction:action];
-        [self presentViewController:alert animated:YES completion:NULL];
-        [self.avatarImageView sd_setImageWithURL:[QPAccountManager sharedInstance].userInfo.avatarURL];
-        [self.nameLabel setText:[QPAccountManager sharedInstance].userInfo.nickName];
+//    [[QPAccountManager sharedInstance] startQQMiniAppAuthenticationWithCompletion:^(BOOL success, NSString * _Nonnull msg) {
+//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"QQ小程序认证"
+//                                                                       message:[NSString stringWithFormat:@"status:%@\n message:%@",success?@"success":@"failed",msg] preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:NULL];
+//        [alert addAction:action];
+//        [self presentViewController:alert animated:YES completion:NULL];
+//        [self.avatarImageView sd_setImageWithURL:[QPAccountManager sharedInstance].userInfo.avatarURL];
+//        [self.nameLabel setText:[QPAccountManager sharedInstance].userInfo.nickName];
+//    }];
+//
+    
+    [[QPAccountManager sharedInstance] startQQH5AuthenticationWithWebUrl:^(NSString * _Nonnull webUrl) {
+        if (webUrl.length) {
+            UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+            UIViewController *vc = window.rootViewController;
+            if (vc) {
+                self.loginVC = [[LoginViewController alloc] initWithUrl:webUrl];
+                self.loginVC.modalPresentationStyle = UIModalPresentationFullScreen;
+                [vc presentViewController:self.loginVC animated:YES completion:NULL];
+            }
+        }
+    } Completion:^(BOOL success, NSString * _Nonnull msg) {
+        if (self.loginVC) {
+            [self.loginVC dismissViewControllerAnimated:YES completion:NULL];
+        }
     }];
 }
 
@@ -572,7 +613,9 @@
         dispatch_group_enter(group);
         [[QPOpenAPIManager sharedInstance] fetchSongInfoBatchWithMid:currentSongs completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
             if (!error) {
-                [result addObjectsFromArray:songs];
+                if (songs) {
+                    [result addObjectsFromArray:songs];
+                }
             }else {
                 errorOccoured = error;
             }

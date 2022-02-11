@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
 spec.name         	= "WSZSDKTest"
-spec.version      	= "1.0.0"
+spec.version      	= "1.0.1"
 spec.summary      	= "仅用于测试"
 spec.license      	= "MIT"
 spec.author       	= { "wszcug" => "272327827@qq.com" }
@@ -21,5 +21,5 @@ spec.vendored_frameworks 	= 'WSZSDKTest/QMOpenApiSDK.framework'
  
 spec.xcconfig	   	= { 'OTHER_LDFLAGS' => '-ObjC -all_load -fobjc-arc' }
 
-
+spec.dependency 'WechatOpenSDK'
 end

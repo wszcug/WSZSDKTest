@@ -88,20 +88,19 @@
         self.navigationItem.title = self.folder.name;
         [[QPOpenAPIManager sharedInstance] fetchSongOfFolderWithId:self.folder.identifier pageNumber:self.pageNumber pageSize:[NSNumber numberWithInt:50] completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
             if (!error) {
-                //再拉取一次歌曲详情
-                [[QPOpenAPIManager sharedInstance] fetchSongInfoBatchWithMid:songs completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
-                    if (!error) {
-                        [weakSelf.songs addObjectsFromArray:songs];
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
+                if (songs) {
+                    [weakSelf.songs addObjectsFromArray:songs];
+                }
+                [weakSelf.tableView reloadData];
             }
         }];
     }else if (self.rank){
         self.navigationItem.title = self.rank.name;
         [[QPOpenAPIManager sharedInstance] fetchSongOfRankWithId:self.rank.identifier pageNumber:self.pageNumber pageSize:[NSNumber numberWithInt:50] completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
             if (!error) {
-                [weakSelf.songs addObjectsFromArray:songs];
+                if (songs) {
+                    [weakSelf.songs addObjectsFromArray:songs];
+                }
                 [weakSelf.tableView reloadData];
             }
         }];
@@ -110,26 +109,20 @@
         self.navigationItem.title = self.album.name;
         [[QPOpenAPIManager sharedInstance] fetchSongOfAlbumWithId:self.album.identifier pageNumber:[NSNumber numberWithInt:0] pageSize:[NSNumber numberWithInt:50] completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
             if (!error) {
-                //再拉取一次歌曲详情
-                [[QPOpenAPIManager sharedInstance] fetchSongInfoBatchWithMid:songs completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
-                    if (!error) {
-                        [weakSelf.songs addObjectsFromArray:songs];
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
+                if (songs) {
+                    [weakSelf.songs addObjectsFromArray:songs];
+                }
+                [weakSelf.tableView reloadData];
             }
         }];
     }
     else if (self.singer){
         [[QPOpenAPIManager sharedInstance] fetchSongOfSingerWithId:self.singer.identifier pageNumber:[NSNumber numberWithInt:0] pageSize:[NSNumber numberWithInt:50] order:1 completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
             if (!error) {
-                //再拉取一次歌曲详情
-                [[QPOpenAPIManager sharedInstance] fetchSongInfoBatchWithMid:songs completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
-                    if (!error) {
-                        [weakSelf.songs addObjectsFromArray:songs];
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
+                if (songs) {
+                    [weakSelf.songs addObjectsFromArray:songs];
+                }
+                [weakSelf.tableView reloadData];
             }
         }];
     }
@@ -177,14 +170,11 @@
         self.navigationItem.title = self.folder.name;
         [[QPOpenAPIManager sharedInstance] fetchSongOfFolderWithId:self.folder.identifier pageNumber:self.pageNumber pageSize:[NSNumber numberWithInt:50] completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
             if (!error) {
-                //再拉取一次歌曲详情
-                [[QPOpenAPIManager sharedInstance] fetchSongInfoBatchWithMid:songs completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
-                    if (!error) {
-                        [weakSelf.tableView.mj_footer endRefreshing];
-                        [weakSelf.songs addObjectsFromArray:songs];
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
+                [weakSelf.tableView.mj_footer endRefreshing];
+                if (songs) {
+                    [weakSelf.songs addObjectsFromArray:songs];
+                }
+                [weakSelf.tableView reloadData];
             }
         }];
     }else if (self.rank){
@@ -196,7 +186,9 @@
         [[QPOpenAPIManager sharedInstance] fetchSongOfRankWithId:self.rank.identifier pageNumber:self.pageNumber pageSize:[NSNumber numberWithInt:50] completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
             if (!error) {
                 [weakSelf.tableView.mj_footer endRefreshing];
-                [weakSelf.songs addObjectsFromArray:songs];
+                if (songs) {
+                    [weakSelf.songs addObjectsFromArray:songs];
+                }
                 [weakSelf.tableView reloadData];
             }
         }];
@@ -209,14 +201,11 @@
         self.navigationItem.title = self.album.name;
         [[QPOpenAPIManager sharedInstance] fetchSongOfAlbumWithId:self.album.identifier pageNumber:self.pageNumber pageSize:[NSNumber numberWithInt:50] completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
             if (!error) {
-                //再拉取一次歌曲详情
-                [[QPOpenAPIManager sharedInstance] fetchSongInfoBatchWithMid:songs completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
-                    if (!error) {
-                        [weakSelf.tableView.mj_footer endRefreshing];
-                        [weakSelf.songs addObjectsFromArray:songs];
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
+                [weakSelf.tableView.mj_footer endRefreshing];
+                if (songs) {
+                    [weakSelf.songs addObjectsFromArray:songs];
+                }
+                [weakSelf.tableView reloadData];
             }
         }];
     }
@@ -227,14 +216,13 @@
         self.pageNumber = [NSNumber numberWithInt:self.pageNumber.intValue+1];
         [[QPOpenAPIManager sharedInstance] fetchSongOfSingerWithId:self.singer.identifier pageNumber:self.pageNumber pageSize:[NSNumber numberWithInt:50] order:1 completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
             if (!error) {
-                //再拉取一次歌曲详情
-                [[QPOpenAPIManager sharedInstance] fetchSongInfoBatchWithMid:songs completion:^(NSArray<QPSongInfo *> * _Nullable songs, NSError * _Nullable error) {
-                    if (!error) {
-                        [weakSelf.tableView.mj_footer endRefreshing];
+                if (!error) {
+                    [weakSelf.tableView.mj_footer endRefreshing];
+                    if (songs) {
                         [weakSelf.songs addObjectsFromArray:songs];
-                        [weakSelf.tableView reloadData];
                     }
-                }];
+                    [weakSelf.tableView reloadData];
+                }
             }
         }];
     }

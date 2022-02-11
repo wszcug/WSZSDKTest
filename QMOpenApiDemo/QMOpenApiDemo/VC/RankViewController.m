@@ -102,7 +102,9 @@
             for (QPCategory *category in categories) {
                 [[QPOpenAPIManager sharedInstance] fetchRankListByCategoryWithId:category.identifier completion:^(NSArray<QPRank *> * _Nullable ranks, NSError * _Nullable error) {
                     if (!error) {
-                        [weakSelf.data setObject:ranks forKey:category.identifier];
+                        if (ranks) {
+                            [weakSelf.data setObject:ranks forKey:category.identifier];
+                        }
                         [weakSelf.tableView reloadData];
                     }
                 }];

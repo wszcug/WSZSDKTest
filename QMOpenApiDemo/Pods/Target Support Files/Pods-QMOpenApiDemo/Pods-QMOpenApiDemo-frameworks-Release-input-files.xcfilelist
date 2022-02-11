@@ -1,6 +1,2 @@
 ${PODS_ROOT}/Target Support Files/Pods-QMOpenApiDemo/Pods-QMOpenApiDemo-frameworks.sh
-${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework
-${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework
-${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
-${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework
 ${PODS_ROOT}/WSZSDKTest/WSZSDKTest/QMOpenApiSDK.framework

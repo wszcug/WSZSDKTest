@@ -14,10 +14,6 @@
 #import <QMOpenApiSDK/QMOpenApiSDK.h>
 #import "SVProgressHUD.h"
 
-@interface AppDelegate ()
-
-@end
-
 @implementation AppDelegate
 
 
@@ -25,11 +21,10 @@
     
     //TODO: 获取IDFA是否还会卡审核？
     //TODO: 设置SDK开发模式
-    [[QPAccountManager sharedInstance] configureWithQMAppID:@"2000000287" appKey:@"TVWdYCKStLtdIUBG" callBackUrl:@"qmopenapidemo://auth"];
-//    [[QPAccountManager sharedInstance] configureWithWXAppID:@"wx85d9b008252f26b5" universalLink:@"https://music.qq.com/tango/"];
-//    [[QPAccountManager sharedInstance] configureWithQQAppID:@"101834739" universalLink:@"www.qq.com"];
-   
-    
+    [[QPAccountManager sharedInstance] configureWithQMAppID:@"12345668" appKey:@"qoJvLUGMKmSExFJdXD" callBackUrl:@"qmopenapidemo://auth"];
+    [[QPAccountManager sharedInstance] configureWithWXAppID:@"wx85d9b008252f26b5" universalLink:@"https://music.qq.com/tango/"];
+    [[QPAccountManager sharedInstance] configureWithQQAppID:@"100446242" universalLink:@"www.qq.com"];
+    //qqmusicid
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleLight];
     [SVProgressHUD setBackgroundColor:UIColor.lightGrayColor];
     

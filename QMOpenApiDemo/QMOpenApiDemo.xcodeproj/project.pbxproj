@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		301054322786D3B400A5179B /* QRCodeLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 301054312786D3B400A5179B /* QRCodeLoginVC.m */; };
 		303AD3962746001C003F245C /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 303AD3952746001C003F245C /* home.png */; };
 		303AD3982746015F003F245C /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 303AD3972746015F003F245C /* list.png */; };
 		303AD39A2746018A003F245C /* radio.png in Resources */ = {isa = PBXBuildFile; fileRef = 303AD3992746018A003F245C /* radio.png */; };
@@ -39,7 +40,8 @@
 		307E999E26DC83B1002DF405 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 307E999126DC83B1002DF405 /* View+MASAdditions.m */; };
 		307E999F26DC83B1002DF405 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 307E999526DC83B1002DF405 /* MASViewConstraint.m */; };
 		307E99A026DC83B1002DF405 /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 307E999626DC83B1002DF405 /* MASLayoutConstraint.m */; };
-		AE6315BA319676FA375527FD /* Pods_QMOpenApiDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B5C4FA7A37A05C8920F473A /* Pods_QMOpenApiDemo.framework */; };
+		30E11676279E52C70055214C /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E11675279E52C70055214C /* libc++.tbd */; };
+		30E7BB4B277EA6470011002E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E7BB4A277EA6470011002E /* LoginViewController.m */; };
 		E146F0F727157F26004A82F3 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E146F0F627157F26004A82F3 /* SearchViewController.m */; };
 		E146F0FA27157F3D004A82F3 /* MineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E146F0F927157F3D004A82F3 /* MineViewController.m */; };
 		E146F0FD27157F60004A82F3 /* RadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E146F0FC27157F60004A82F3 /* RadioViewController.m */; };
@@ -164,22 +166,25 @@
 		E146F2CF2730E481004A82F3 /* CustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = E146F2CE2730E481004A82F3 /* CustomSlider.m */; };
 		E146F3112733CE16004A82F3 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E146F3102733CE16004A82F3 /* TestViewController.m */; };
 		E146F3142733CE1E004A82F3 /* TestTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E146F3122733CE1E004A82F3 /* TestTableCell.m */; };
+		F5ED369D3F7D9FBBDF83A179 /* Pods_QMOpenApiDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EEA2F05187BFC34DDF771D7 /* Pods_QMOpenApiDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		307E9A5326DCD0E4002DF405 /* CopyFiles */ = {
+		30E11681279EA4C70055214C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
 			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0B5C4FA7A37A05C8920F473A /* Pods_QMOpenApiDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QMOpenApiDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		301054302786D3B400A5179B /* QRCodeLoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRCodeLoginVC.h; sourceTree = "<group>"; };
+		301054312786D3B400A5179B /* QRCodeLoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRCodeLoginVC.m; sourceTree = "<group>"; };
 		303AD3952746001C003F245C /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		303AD3972746015F003F245C /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list.png; sourceTree = "<group>"; };
 		303AD3992746018A003F245C /* radio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio.png; sourceTree = "<group>"; };
@@ -234,8 +239,12 @@
 		307E99AB26DC8820002DF405 /* QMOpenApiSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QMOpenApiSDK.framework; path = "../../Library/Developer/Xcode/DerivedData/QMOpenApiDemo-bplmqbrtabbjbvfwrkmphjxgphnz/Build/Products/Debug-iphoneos/QMOpenApiSDK.framework"; sourceTree = "<group>"; };
 		30C5F8A32739216300059217 /* QMOpenApiDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QMOpenApiDemo.entitlements; sourceTree = "<group>"; };
 		30C5F8A72739589E00059217 /* QMOpenApiDemoDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QMOpenApiDemoDebug.entitlements; sourceTree = "<group>"; };
-		3D56548672568542521E441C /* Pods-QMOpenApiDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QMOpenApiDemo.debug.xcconfig"; path = "Target Support Files/Pods-QMOpenApiDemo/Pods-QMOpenApiDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		92B2A44024F7AA6087108CF0 /* Pods-QMOpenApiDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QMOpenApiDemo.release.xcconfig"; path = "Target Support Files/Pods-QMOpenApiDemo/Pods-QMOpenApiDemo.release.xcconfig"; sourceTree = "<group>"; };
+		30E11675279E52C70055214C /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		30E7BB49277EA6470011002E /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		30E7BB4A277EA6470011002E /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		4D31030CBD77C65F34ECE851 /* Pods-QMOpenApiDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QMOpenApiDemo.debug.xcconfig"; path = "Target Support Files/Pods-QMOpenApiDemo/Pods-QMOpenApiDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		6EEA2F05187BFC34DDF771D7 /* Pods_QMOpenApiDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QMOpenApiDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CB007DE6B5581FD0ADEC4C0 /* Pods-QMOpenApiDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QMOpenApiDemo.release.xcconfig"; path = "Target Support Files/Pods-QMOpenApiDemo/Pods-QMOpenApiDemo.release.xcconfig"; sourceTree = "<group>"; };
 		E146F0F527157F26004A82F3 /* SearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		E146F0F627157F26004A82F3 /* SearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		E146F0F827157F3D004A82F3 /* MineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineViewController.h; sourceTree = "<group>"; };
@@ -520,7 +529,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE6315BA319676FA375527FD /* Pods_QMOpenApiDemo.framework in Frameworks */,
+				30E11676279E52C70055214C /* libc++.tbd in Frameworks */,
+				F5ED369D3F7D9FBBDF83A179 /* Pods_QMOpenApiDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,7 +567,7 @@
 				307E995326DC7D15002DF405 /* QMOpenApiDemo */,
 				307E995226DC7D15002DF405 /* Products */,
 				30C2713826DC7E03000C8916 /* Frameworks */,
-				5A3AFE833FF6A29AF93B21E8 /* Pods */,
+				CA9C929670F7362D837BEA92 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -619,17 +629,18 @@
 		30C2713826DC7E03000C8916 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30E11675279E52C70055214C /* libc++.tbd */,
 				307E99AB26DC8820002DF405 /* QMOpenApiSDK.framework */,
-				0B5C4FA7A37A05C8920F473A /* Pods_QMOpenApiDemo.framework */,
+				6EEA2F05187BFC34DDF771D7 /* Pods_QMOpenApiDemo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5A3AFE833FF6A29AF93B21E8 /* Pods */ = {
+		CA9C929670F7362D837BEA92 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3D56548672568542521E441C /* Pods-QMOpenApiDemo.debug.xcconfig */,
-				92B2A44024F7AA6087108CF0 /* Pods-QMOpenApiDemo.release.xcconfig */,
+				4D31030CBD77C65F34ECE851 /* Pods-QMOpenApiDemo.debug.xcconfig */,
+				7CB007DE6B5581FD0ADEC4C0 /* Pods-QMOpenApiDemo.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -645,6 +656,10 @@
 				E146F0F627157F26004A82F3 /* SearchViewController.m */,
 				E146F0F827157F3D004A82F3 /* MineViewController.h */,
 				E146F0F927157F3D004A82F3 /* MineViewController.m */,
+				30E7BB49277EA6470011002E /* LoginViewController.h */,
+				30E7BB4A277EA6470011002E /* LoginViewController.m */,
+				301054302786D3B400A5179B /* QRCodeLoginVC.h */,
+				301054312786D3B400A5179B /* QRCodeLoginVC.m */,
 				E146F0FB27157F60004A82F3 /* RadioViewController.h */,
 				E146F0FC27157F60004A82F3 /* RadioViewController.m */,
 				E146F1FF2717C613004A82F3 /* PlayerViewController.h */,
@@ -1058,12 +1073,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 307E996A26DC7D16002DF405 /* Build configuration list for PBXNativeTarget "QMOpenApiDemo" */;
 			buildPhases = (
-				6A2C82BF5F0B89200F06E033 /* [CP] Check Pods Manifest.lock */,
+				16E795D68D9483D1EF3CA7A7 /* [CP] Check Pods Manifest.lock */,
 				307E994D26DC7D15002DF405 /* Sources */,
 				307E994E26DC7D15002DF405 /* Frameworks */,
 				307E994F26DC7D15002DF405 /* Resources */,
-				307E9A5326DCD0E4002DF405 /* CopyFiles */,
-				40466030841B8585D4D6C2F1 /* [CP] Embed Pods Frameworks */,
+				30E11681279EA4C70055214C /* Embed Frameworks */,
+				123F091449480BA2F6206B03 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1080,7 +1095,7 @@
 		307E994926DC7D15002DF405 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					307E995026DC7D15002DF405 = {
 						CreatedOnToolsVersion = 12.5.1;
@@ -1137,7 +1152,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		40466030841B8585D4D6C2F1 /* [CP] Embed Pods Frameworks */ = {
+		123F091449480BA2F6206B03 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1154,7 +1169,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QMOpenApiDemo/Pods-QMOpenApiDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6A2C82BF5F0B89200F06E033 /* [CP] Check Pods Manifest.lock */ = {
+		16E795D68D9483D1EF3CA7A7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1207,6 +1222,7 @@
 				E146F19E27159F35004A82F3 /* SDAnimatedImageView.m in Sources */,
 				E146F2C92730C068004A82F3 /* MJRefreshBackFooter.m in Sources */,
 				E146F2C22730C068004A82F3 /* MJRefreshStateTrailer.m in Sources */,
+				30E7BB4B277EA6470011002E /* LoginViewController.m in Sources */,
 				E146F1BD27159F35004A82F3 /* SDImageCachesManager.m in Sources */,
 				307E996726DC7D16002DF405 /* main.m in Sources */,
 				E146F1AC27159F35004A82F3 /* SDWebImageCompat.m in Sources */,
@@ -1227,6 +1243,7 @@
 				E146F1B727159F35004A82F3 /* SDWebImageDownloaderConfig.m in Sources */,
 				E146F23E27296DAF004A82F3 /* FolderCollectionCell.m in Sources */,
 				E146F2282722B075004A82F3 /* SongListViewController.m in Sources */,
+				301054322786D3B400A5179B /* QRCodeLoginVC.m in Sources */,
 				E146F0F727157F26004A82F3 /* SearchViewController.m in Sources */,
 				E146F2BC2730C068004A82F3 /* MJRefreshBackGifFooter.m in Sources */,
 				E146F19F27159F35004A82F3 /* UIImage+ForceDecode.m in Sources */,
@@ -1386,7 +1403,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1439,7 +1456,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1449,7 +1466,7 @@
 		};
 		307E996B26DC7D16002DF405 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D56548672568542521E441C /* Pods-QMOpenApiDemo.debug.xcconfig */;
+			baseConfigurationReference = 4D31030CBD77C65F34ECE851 /* Pods-QMOpenApiDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1460,21 +1477,19 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 88L2Q4487U;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/WSZSDKTest/WSZSDKTest\"\n\npod",
-					"'Masonry'\npod",
-					"'SDWebImage'\npod",
-					"'SVProgressHUD'\npod",
-					"'MJRefresh'",
-				);
-				INFOPLIST_FILE = QMOpenApiDemo/Others/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				FRAMEWORK_SEARCH_PATHS = "\"${PODS_ROOT}/WSZSDKTest/WSZSDKTest\"";
+				INFOPLIST_FILE = "$(SRCROOT)/QMOpenApiDemo/Others/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/QMOpenApiDemo",
+				);
 				MARKETING_VERSION = 1.0.1;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.musicid;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = com.tencent.musicid_Development_SignProvision;
@@ -1484,7 +1499,7 @@
 		};
 		307E996C26DC7D16002DF405 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92B2A44024F7AA6087108CF0 /* Pods-QMOpenApiDemo.release.xcconfig */;
+			baseConfigurationReference = 7CB007DE6B5581FD0ADEC4C0 /* Pods-QMOpenApiDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1495,24 +1510,22 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = HKB8WPFBR9;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/WSZSDKTest/WSZSDKTest\"\n\npod",
-					"'Masonry'\npod",
-					"'SDWebImage'\npod",
-					"'SVProgressHUD'\npod",
-					"'MJRefresh'",
-				);
-				INFOPLIST_FILE = QMOpenApiDemo/Others/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				FRAMEWORK_SEARCH_PATHS = "\"${PODS_ROOT}/WSZSDKTest/WSZSDKTest\"";
+				INFOPLIST_FILE = "$(SRCROOT)/QMOpenApiDemo/Others/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/QMOpenApiDemo",
+				);
 				MARKETING_VERSION = 1.0.1;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.musicid.db;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "com.tencent.musicid.db InHouse";
+				PROVISIONING_PROFILE_SPECIFIER = "com.tencent.musicid.db InHouse 1641476158";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

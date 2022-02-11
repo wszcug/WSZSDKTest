@@ -91,6 +91,12 @@ typedef NS_ENUM(NSInteger, QPlaybackCache) {
 - (void)playAtIndex:(NSInteger)index;
 - (void)playSongs:(NSArray<QPSongInfo *> *)songs index:(NSInteger)index;
 
+
+/// 歌单、专辑上报
+/// @param type 上传类型：3：专辑，4：歌单
+/// @param identifier 歌曲ID
+- (void)reportRecentPlayWithType:(NSInteger)type identifier:(NSString *)identifier completion:(void (^)(NSError * _Nullable error))completion;
+
 ///清理播放缓存
 - (void)clearCache;
 

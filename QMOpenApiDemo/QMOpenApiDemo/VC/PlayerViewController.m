@@ -197,7 +197,7 @@
         make.height.mas_equalTo(50);
         make.width.mas_equalTo(120);
         make.trailing.mas_equalTo(self.cacheLabel.mas_trailing);
-        make.top.mas_equalTo(self.cacheLabel.mas_bottom).with.offset(20);
+        make.top.mas_equalTo(self.cacheLabel.mas_bottom).with.offset(50);
     }];
     [self.nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.playButton.mas_centerY);
