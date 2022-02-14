@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
 spec.name         	= "WSZSDKTest"
-spec.version      	= "1.0.1"
+spec.version      	= "1.1.3"
 spec.summary      	= "仅用于测试"
 spec.license      	= "MIT"
 spec.author       	= { "wszcug" => "272327827@qq.com" }
