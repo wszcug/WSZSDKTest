@@ -22,4 +22,5 @@ spec.vendored_frameworks 	= 'WSZSDKTest/QMOpenApiSDK.framework'
 spec.xcconfig	   	= { 'OTHER_LDFLAGS' => '-ObjC -all_load -fobjc-arc' }
 
 spec.dependency 'WechatOpenSDK'
+valid_archs = ['armv7','arm64']
 end
