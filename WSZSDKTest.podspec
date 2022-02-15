@@ -21,6 +21,9 @@ spec.vendored_frameworks 	= 'WSZSDKTest/QMOpenApiSDK.framework'
  
 spec.xcconfig	   	= { 'OTHER_LDFLAGS' => '-ObjC -all_load -fobjc-arc' }
 
+spec.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+
 spec.dependency 'WechatOpenSDK'
 
 end
