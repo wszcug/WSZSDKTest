@@ -6,12 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "QPSongInfo.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface QPOpenAPIManager : NSObject
 
 + (instancetype)sharedInstance;
+
+//- (BOOL)fileExistsByMid:(NSString *)songMid;
+//- (void)downloadWithSongInfo:(QPSongInfo *)songInfo;
 
 @end
 

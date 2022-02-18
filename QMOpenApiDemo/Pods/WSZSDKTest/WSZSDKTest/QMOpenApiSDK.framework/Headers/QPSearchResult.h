@@ -12,7 +12,7 @@
 #import "QPAlbum.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class QPSearchZhiDa;
 @interface QPSearchResult : NSObject
 ///当前返回个数
 @property (nonatomic) NSInteger currentNumber;
@@ -30,7 +30,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable) NSArray<QPFolder *>  *folders;
 ///歌词结果
 @property (nonatomic, nullable) NSArray<QPLyricInfo *>  *lyrics;
+
+@property (nonatomic, strong) QPSearchZhiDa *zhida;
+
 - (instancetype)initWithJSON:(NSDictionary *)json type:(NSInteger)type;
+@end
+
+@interface QPSearchZhiDa : NSObject
+@property (nonatomic) NSInteger reusableID;
+@property (nonatomic, copy) NSString *pic;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *sub_title;
+@property (nonatomic, assign) NSInteger type;
+
+- (id)initWithDic:(NSDictionary *)dic;
 @end
 
 NS_ASSUME_NONNULL_END

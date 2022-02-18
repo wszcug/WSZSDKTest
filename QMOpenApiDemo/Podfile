@@ -6,7 +6,5 @@ target 'QMOpenApiDemo' do
   use_frameworks!
 
   # Pods for QMOpenApiDemo
-pod 'WechatOpenSDK'
 pod 'WSZSDKTest'
-
 end
